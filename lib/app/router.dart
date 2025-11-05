@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/feed/presentation/screens/feed_screen.dart';
 import '../features/todos/presentation/screens/todos_screen.dart';
 import '../features/profile/presentation/screens/profile_screen.dart';
+import '../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import 'widgets/main_navigation.dart';
 
@@ -56,6 +56,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           currentIndex: 3,
           child: ProfileScreen(),
         ),
+      ),
+      GoRoute(
+        path: '/profile/edit',
+        name: 'edit-profile',
+        builder: (context, state) => const EditProfileScreen(),
       ),
     ],
   );

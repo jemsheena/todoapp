@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../app/theme/theme_controller.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
+class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
@@ -145,6 +146,12 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   Widget _buildMenuItems(BuildContext context) {
+    final themeMode = ref.watch(themeModeProvider);
+    final themeController = ref.read(themeModeProvider.notifier);
+    final isDarkMode = themeMode == ThemeMode.dark ||
+        (themeMode == ThemeMode.system &&
+            MediaQuery.of(context).platformBrightness == Brightness.dark);
+
     final items = [
       _MenuItem(
         icon: Icons.edit_outlined,
@@ -153,29 +160,31 @@ class _ProfileScreenState extends State<ProfileScreen>
         color: Colors.blue,
         onTap: () {
           HapticFeedback.mediumImpact();
-          // TODO: Navigate to edit profile
+          context.push('/profile/edit');
         },
       ),
       _MenuItem(
-        icon: Icons.notifications_outlined,
-        title: 'Notifications',
-        subtitle: 'Manage notification preferences',
-        color: Colors.orange,
+        icon: Icons.settings_outlined,
+        title: 'Settings',
+        subtitle: 'App settings and preferences',
+        color: Colors.grey,
         onTap: () {
           HapticFeedback.mediumImpact();
-          // TODO: Navigate to notifications
+          context.go('/settings');
         },
       ),
       _MenuItem(
         icon: Icons.dark_mode_outlined,
         title: 'Dark Mode',
-        subtitle: 'Toggle dark theme',
+        subtitle: isDarkMode ? 'Dark theme enabled' : 'Light theme enabled',
         color: Colors.purple,
         trailing: Switch(
-          value: false,
+          value: isDarkMode,
           onChanged: (value) {
             HapticFeedback.mediumImpact();
-            // TODO: Toggle theme
+            themeController.setThemeMode(
+              value ? ThemeMode.dark : ThemeMode.light,
+            );
           },
         ),
         onTap: null,
