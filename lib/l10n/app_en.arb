@@ -1,0 +1,25 @@
+{
+  "@@locale": "en",
+  "appTitle": "Todo App",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in button text"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  }
+}
+
+
